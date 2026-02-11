@@ -8,6 +8,8 @@ with a custom format: `YY.WW.X` (Year.WeekNumber.Increment).
 
 ## [Unreleased]
 
+## [26.06.0] - 2026-02-11
+
 ### Fixed
 - `AdjustAttributeCount`: replaced `catalog_product_index_eav` JOIN with `catalog_product_entity_int`
   lookup, fixing missing attribute filter options for configurable products whose children have
@@ -36,5 +38,6 @@ with a custom format: `YY.WW.X` (Year.WeekNumber.Increment).
 - Magento 2.4.x
 - PHP 8.1, 8.2, or 8.3
 
-[Unreleased]: https://github.com/hans2103/hans2103_magento2_optionfilter/compare/26.05.1...HEAD
+[Unreleased]: https://github.com/hans2103/hans2103_magento2_optionfilter/compare/26.06.0...HEAD
+[26.06.0]: https://github.com/hans2103/hans2103_magento2_optionfilter/compare/26.05.1...26.06.0
 [26.05.1]: https://github.com/hans2103/hans2103_magento2_optionfilter/releases/tag/26.05.1
