@@ -1,0 +1,14 @@
+# IDE and editor files
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Composer
+/vendor/
+composer.lock
+
+# System files
+Thumbs.db

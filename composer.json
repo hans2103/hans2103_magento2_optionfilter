@@ -1,0 +1,43 @@
+{
+    "name": "hans2103/magento2-optionfilter",
+    "description": "Magento 2 module that filters configurable products from catalog views based on stock status of their variants",
+    "type": "magento2-module",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Hans Kuijpers",
+            "email": "info@hkweb.nl",
+            "homepage": "https://github.com/hans2103",
+            "role": "Developer"
+        }
+    ],
+    "keywords": [
+        "magento2",
+        "magento",
+        "stock",
+        "filter",
+        "configurable",
+        "layered-navigation",
+        "inventory"
+    ],
+    "require": {
+        "php": "^8.1|^8.2|^8.3",
+        "magento/framework": "^102.0|^103.0",
+        "magento/module-catalog": "^104.0",
+        "magento/module-catalog-inventory": "^100.4",
+        "magento/module-configurable-product": "^100.4",
+        "magento/module-layered-navigation": "^100.4"
+    },
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Hans2103\\OptionFilter\\": ""
+        }
+    },
+    "support": {
+        "issues": "https://github.com/hans2103/hans2103_magento2_optionfilter/issues",
+        "source": "https://github.com/hans2103/hans2103_magento2_optionfilter"
+    }
+}

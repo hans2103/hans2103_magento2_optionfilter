@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Hans2103. All rights reserved.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+	<type name="Magento\Catalog\Model\ResourceModel\Product\Collection">
+		<plugin name="hans2103_filter_configurable_by_stock"
+				type="Hans2103\OptionFilter\Plugin\Product\Collection\FilterConfigurableByStock"
+				sortOrder="100"/>
+		<plugin name="hans2103_adjust_collection_size"
+				type="Hans2103\OptionFilter\Plugin\Product\Collection\AdjustCollectionSize"
+				sortOrder="200"/>
+	</type>
+
+	<!-- Plugin for search results layered navigation -->
+	<type name="Magento\CatalogSearch\Model\Layer\Filter\Attribute">
+		<plugin name="hans2103_adjust_search_filter_items"
+				type="Hans2103\OptionFilter\Plugin\CatalogSearch\Model\Layer\Filter\AdjustAttributeCount"
+				sortOrder="100"/>
+	</type>
+
+	<!-- Plugin for category layered navigation -->
+	<type name="Magento\Catalog\Model\Layer\Filter\Attribute">
+		<plugin name="hans2103_adjust_category_filter_items"
+				type="Hans2103\OptionFilter\Plugin\CatalogSearch\Model\Layer\Filter\AdjustAttributeCount"
+				sortOrder="100"/>
+	</type>
+</config>

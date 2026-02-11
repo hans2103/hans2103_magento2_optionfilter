@@ -1,0 +1,104 @@
+name: Create Release
+
+on:
+  push:
+    tags:
+      - '[0-9]+.[0-9]+.[0-9]+'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Create GitHub Release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Get tag name
+        id: tag
+        run: echo "tag=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+
+      - name: Validate version format
+        run: |
+          VERSION="${{ steps.tag.outputs.tag }}"
+          if [[ ! "$VERSION" =~ ^[0-9]{2}\.[0-9]{1,2}\.[0-9]+$ ]]; then
+            echo "::warning::Version $VERSION does not follow YY.WW.X format"
+            echo "::warning::Example: 26.07.1 for year 2026, week 7, release 1"
+          fi
+
+      - name: Create release package
+        id: package
+        run: |
+          TAG="${{ steps.tag.outputs.tag }}"
+          PACKAGE_NAME="hans2103_optionfilter-${TAG}"
+          mkdir "/tmp/${PACKAGE_NAME}"
+          rsync -a \
+            --exclude='.git' \
+            --exclude='.github' \
+            --exclude='.gitignore' \
+            ./ "/tmp/${PACKAGE_NAME}/"
+          cd /tmp
+          zip -r "${PACKAGE_NAME}.zip" "${PACKAGE_NAME}/"
+          mv "/tmp/${PACKAGE_NAME}.zip" "${GITHUB_WORKSPACE}/"
+          echo "filename=${PACKAGE_NAME}.zip" >> $GITHUB_OUTPUT
+
+      - name: Extract changelog for version
+        id: changelog
+        run: |
+          VERSION="${{ steps.tag.outputs.tag }}"
+          CHANGELOG=$(awk -v ver="$VERSION" '
+            $0 ~ "^## \\[" ver "\\]" { flag=1; next }
+            /^## \[/ { if (flag) exit; flag=0 }
+            flag { print }
+          ' CHANGELOG.md)
+          if [ -z "$CHANGELOG" ]; then
+            CHANGELOG="See CHANGELOG.md for details."
+          fi
+          {
+            echo 'notes<<EOF'
+            printf '%s\n' "$CHANGELOG"
+            echo 'EOF'
+          } >> $GITHUB_OUTPUT
+
+      - name: Build release notes
+        run: |
+          {
+            echo "## What's Changed"
+            echo ""
+            echo "${{ steps.changelog.outputs.notes }}"
+            echo ""
+            echo "## Installation"
+            echo ""
+            echo "### Via Composer (Recommended)"
+            echo '```bash'
+            echo "composer require hans2103/magento2-optionfilter:${{ steps.tag.outputs.tag }}"
+            echo "bin/magento module:enable Hans2103_OptionFilter"
+            echo "bin/magento setup:upgrade"
+            echo "bin/magento setup:di:compile"
+            echo "bin/magento cache:flush"
+            echo '```'
+            echo ""
+            echo "### Upgrade"
+            echo '```bash'
+            echo "composer update hans2103/magento2-optionfilter"
+            echo "bin/magento setup:upgrade"
+            echo "bin/magento setup:di:compile"
+            echo "bin/magento cache:flush"
+            echo '```'
+            echo ""
+            echo "**Full Changelog**: https://github.com/${{ github.repository }}/blob/${{ steps.tag.outputs.tag }}/CHANGELOG.md"
+          } > release_notes.md
+
+      - name: Create GitHub Release
+        run: |
+          gh release create "${{ steps.tag.outputs.tag }}" \
+            --title "Version ${{ steps.tag.outputs.tag }}" \
+            --notes-file release_notes.md \
+            "${{ steps.package.outputs.filename }}"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
