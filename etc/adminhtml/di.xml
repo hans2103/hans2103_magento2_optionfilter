@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Hans2103. All rights reserved.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+
+	<!-- Add "Use in Multiselect Layered Navigation" field to attribute Storefront Properties tab -->
+	<type name="Magento\Catalog\Block\Adminhtml\Product\Attribute\Edit\Tab\Front">
+		<plugin name="hans2103_add_multiselect_filter_field"
+				type="Hans2103\OptionFilter\Plugin\Adminhtml\Attribute\Form\AddMultiselectField"
+				sortOrder="100"/>
+	</type>
+
+</config>

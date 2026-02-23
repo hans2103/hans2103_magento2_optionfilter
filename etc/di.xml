@@ -15,17 +15,37 @@
 				sortOrder="200"/>
 	</type>
 
-	<!-- Plugin for search results layered navigation -->
+	<!-- Plugin for search results layered navigation (attribute count + multiselect apply) -->
 	<type name="Magento\CatalogSearch\Model\Layer\Filter\Attribute">
 		<plugin name="hans2103_adjust_search_filter_items"
 				type="Hans2103\OptionFilter\Plugin\CatalogSearch\Model\Layer\Filter\AdjustAttributeCount"
 				sortOrder="100"/>
+		<plugin name="hans2103_apply_multiselect_search_filter"
+				type="Hans2103\OptionFilter\Plugin\Layer\Filter\ApplyMultiSelectFilter"
+				sortOrder="50"/>
 	</type>
 
-	<!-- Plugin for category layered navigation -->
+	<!-- Plugin for category layered navigation (attribute count + multiselect apply) -->
 	<type name="Magento\Catalog\Model\Layer\Filter\Attribute">
 		<plugin name="hans2103_adjust_category_filter_items"
 				type="Hans2103\OptionFilter\Plugin\CatalogSearch\Model\Layer\Filter\AdjustAttributeCount"
 				sortOrder="100"/>
+		<plugin name="hans2103_apply_multiselect_catalog_filter"
+				type="Hans2103\OptionFilter\Plugin\Layer\Filter\ApplyMultiSelectFilter"
+				sortOrder="50"/>
+	</type>
+
+	<!-- Plugin to toggle multiselect values in filter item URLs (non-swatch attributes) -->
+	<type name="Magento\Catalog\Model\Layer\Filter\Item">
+		<plugin name="hans2103_multiselect_toggle_url"
+				type="Hans2103\OptionFilter\Plugin\Layer\Filter\Item\ToggleUrl"
+				sortOrder="100"/>
+	</type>
+
+	<!-- Plugin to toggle multiselect values in swatch filter URLs -->
+	<type name="Magento\Swatches\Block\LayeredNavigation\RenderLayered">
+		<plugin name="hans2103_multiselect_swatch_url"
+				type="Hans2103\OptionFilter\Plugin\Swatches\LayeredNavigation\BuildMultiSelectUrl"
+				sortOrder="50"/>
 	</type>
 </config>

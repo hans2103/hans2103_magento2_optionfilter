@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Hans2103. All rights reserved.
+ */
+-->
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="catalog_eav_attribute" resource="default" comment="Catalog EAV Attribute Table">
+        <column xsi:type="smallint" name="is_multiselect_filter" padding="5" unsigned="true"
+                nullable="false" default="0"
+                comment="Use in Multiselect Layered Navigation"/>
+    </table>
+</schema>
