@@ -157,7 +157,11 @@ class ToggleUrl
             return null;
         }
 
-        $attribute = $filter->getAttributeModel();
+        try {
+            $attribute = $filter->getAttributeModel();
+        } catch (\Exception $e) {
+            return null;
+        }
         if (!$attribute || !$attribute->getAttributeId()) {
             return null;
         }
